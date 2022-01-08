@@ -8,7 +8,12 @@ def valid_word?(word)
 end
 
 MAX_GUESSES = 6
-LENGTH = 5
+
+puts "Choose the length of your word between 3 to 8 letters, then press return."
+LENGTH = gets.chomp.to_i
+puts "Great!"
+# LENGTH = 5
+
 WORDS = %w[
   a
   hi
