@@ -13,7 +13,9 @@ WORDLE_BANNER =
  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' "
 
 
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+
 
 MAX_GUESSES = 6
 MIN_LENGTH = 3
@@ -55,6 +57,10 @@ def print_blank_row(input=nil)
   puts str
 end
 
+YELLOWS = []
+GREENS  = []
+GRAYS   = []
+
 def color_word(word, guess)
 
   str = ""
@@ -87,14 +93,21 @@ def color_word(word, guess)
   str = ""
   guess.split("").each_with_index do |letter, index|
     str << if greens[index]
-#      ALPHABET.gsub!(letter, letter.green)
+      # ALPHABET.gsub!(letter, letter.green)
+      GREENS << letter
       letter.green
       
     elsif yellows[index]
-#      ALPHABET.gsub!(letter, letter.yellow)
+      YELLOWS << letter
+      # puts "TRYING TO GSUB #{letter}"
+      # ALPHABET.gsub!(letter, letter.yellow)
+      #ALPHABET.gsub!(letter, "_")
+      # puts "ALPHABET: #{ALPHABET}"
       letter.yellow
     else
-#      ALPHABET.gsub!(letter, letter.light_black)
+      GRAYS << letter
+      # ALPHABET.gsub!(letter, letter.light_black)
+      # ALPHABET.gsub!(letter, "_")
       letter.light_black
     end
     
@@ -104,6 +117,15 @@ end
 
 def correct?(word, guess)
   word == guess
+end
+
+def color_alphabet#(alphabet, greens, yellows,  grays)
+  #remove yellows that are already green
+  str = ALPHABET.clone
+  GRAYS.each{|l| str.gsub!(l, l.light_black) }
+  (YELLOWS - GREENS).each{|l| str.gsub!(l, l.yellow) }
+  GREENS.each{|l| str.gsub!(l, l.green) }
+  str
 end
 
 puts WORDLE_BANNER.green
@@ -125,6 +147,9 @@ while(num_guesses < MAX_GUESSES)
     num_guesses+=1
   end
   puts "Guess again (#{MAX_GUESSES-num_guesses} left)"
+  
+  puts color_alphabet
+  puts 
 end
 puts "YOU LOSE 💀. The word was #{WORD}.".red
 
