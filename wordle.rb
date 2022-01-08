@@ -10,31 +10,20 @@ end
 MAX_GUESSES = 6
 MIN_LENGTH = 3
 MAX_LENGTH = 9
-puts "Choose the length of your word between #{MIN_LENGTH} to #{MAX_LENGTH} letters, then press return."
-LENGTH = gets.chomp.to_i
-if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
-  raise "Pick a number between #{MIN_LENGTH} and #{MAX_LENGTH}."
-end
-
-puts "Great!"
-# LENGTH = 5
-
-WORDS = %w[
-  a
-  hi
-  yes
-  gabi
-  kugel
-  chests
-  ezekiel
-  benjamin
-]
-# WORD = WORDS[LENGTH-1]
+# puts "Choose the length of your word between #{MIN_LENGTH} to #{MAX_LENGTH} letters, then press return."
+# LENGTH = gets.chomp.to_i
 
 #ENTER WORD HERE
-puts "SETTER: Enter your #{LENGTH} letter word here:"
+puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here, then press enter"
 WORD = gets.chomp
+
+#Check the word is valid and a legal size
 raise "You must guess a valid word in the dictionary. Try again." if !valid_word?(WORD)
+LENGTH = WORD.size
+if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
+  raise "Pick a word between #{MIN_LENGTH} and #{MAX_LENGTH} letters."
+end
+
 
 puts "Got it! #{WORD} is a great word. To hide this, press command-k now."
 
@@ -135,3 +124,16 @@ puts "YOU LOSE 💀. The word was #{WORD}.".red
 
 
 
+
+
+WORDS = %w[
+  a
+  hi
+  yes
+  gabi
+  kugel
+  chests
+  ezekiel
+  benjamin
+]
+# WORD = WORDS[LENGTH-1]
