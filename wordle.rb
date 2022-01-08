@@ -10,8 +10,7 @@ end
 MAX_GUESSES = 6
 MIN_LENGTH = 3
 MAX_LENGTH = 9
-# puts "Choose the length of your word between #{MIN_LENGTH} to #{MAX_LENGTH} letters, then press return."
-# LENGTH = gets.chomp.to_i
+SLEEP_FOR_BEFORE_STARTING = 0 #3
 
 #ENTER WORD HERE
 puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here, then press enter"
@@ -23,14 +22,11 @@ LENGTH = WORD.size
 if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
   raise "Pick a word between #{MIN_LENGTH} and #{MAX_LENGTH} letters."
 end
-
-
-puts "Got it! #{WORD} is a great word. To hide this, press command-k now."
-
 raise "Word length of #{WORD} must be #{LENGTH}" if WORD.size != LENGTH
 
-#puts "shhh the word is '#{WORD}'"
-
+puts "Got it! #{WORD} is a great word. Hiding in 3... 2... 1..."
+sleep(SLEEP_FOR_BEFORE_STARTING)
+system('clear')
 
 def print_blank_row(input=nil)
   str = "_ " * LENGTH
@@ -40,20 +36,7 @@ end
 def color_word(word, guess)
 
   str = ""
-#   guess.split("").each_with_index do |letter, index|
-#     # puts "The #{index} letter is #{letter}"
-# puts "Word=#{word}"
-#     # str << if letter == WORD[index]
-#     #   word = word.gsub(letter,"_")
-#     #   letter.green
-#     # elsif word.match?(letter)
-#     #   word = word.gsub(letter,"_")
-#     #   letter.yellow
-#     # else
-#     #   letter
-#     # end
-#   end
-
+  
   #first find greens
   greens = []
   bag = []
@@ -122,18 +105,3 @@ while(num_guesses < MAX_GUESSES)
 end
 puts "YOU LOSE 💀. The word was #{WORD}.".red
 
-
-
-
-
-WORDS = %w[
-  a
-  hi
-  yes
-  gabi
-  kugel
-  chests
-  ezekiel
-  benjamin
-]
-# WORD = WORDS[LENGTH-1]
