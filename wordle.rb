@@ -15,26 +15,25 @@ WORDLE_BANNER =
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-VALID_WORDS = File.read("words.lower.txt").split("\n")
-def valid_word?(word)
-  VALID_WORDS.include?(word)
-end
-
-
-
-
 MAX_GUESSES = 6
 MIN_LENGTH = 3
 MAX_LENGTH = 9
 SLEEP_FOR_BEFORE_STARTING = 0 #3
+
+SOURCE_WORD_FILE = "source_words.sorted4-6.clean.txt"
+DICTIONARY_FILE = "words.lower.txt"
+
+VALID_WORDS = File.read(DICTIONARY_FILE).split("\n")
+def valid_word?(word)
+  VALID_WORDS.include?(word)
+end
 
 #ENTER WORD HERE
 puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here and press enter, or just press enter for automatic picking"
 user_input = gets.chomp
 
 WORD = if user_input.size == 0 #autopicking
-  # %w[ dog cat bear cars].shuffle.last
-  File.read("source_words.txt").split("\n").shuffle.last.chomp
+  File.read(SOURCE_WORD_FILE).split("\n").shuffle.last.chomp
 else
   user_input
 end
