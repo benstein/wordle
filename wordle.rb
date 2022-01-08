@@ -14,7 +14,8 @@ WORDLE_BANNER =
 
 
 # ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+ALPHABET = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+# ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
 
 MAX_GUESSES = 6
@@ -121,9 +122,9 @@ end
 
 def color_alphabet
   str = ALPHABET.clone
-  GRAYS.each{|l| str.gsub!(l, l.light_black) }
-  (YELLOWS - GREENS).each{|l| str.gsub!(l, l.light_yellow) }
-  GREENS.each{|l| str.gsub!(l, l.green) }
+  GRAYS.each{|l| str.gsub!(l.upcase, l.upcase.light_black) }
+  (YELLOWS - GREENS).each{|l| str.gsub!(l.upcase, l.upcase.light_yellow) }
+  GREENS.each{|l| str.gsub!(l.upcase, l.upcase.green) }
   str
 end
 
@@ -145,9 +146,9 @@ while(num_guesses < MAX_GUESSES)
     end
     num_guesses+=1
   end
-  puts "Guess again (#{MAX_GUESSES-num_guesses} left)"
+  puts "Guess again (#{MAX_GUESSES-num_guesses} left): #{color_alphabet}"
   
-  puts color_alphabet
+  # puts color_alphabet
   puts 
 end
 puts "YOU LOSE 💀. The word was #{WORD}.".red
