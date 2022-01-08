@@ -8,9 +8,14 @@ def valid_word?(word)
 end
 
 MAX_GUESSES = 6
-
-puts "Choose the length of your word between 3 to 8 letters, then press return."
+MIN_LENGTH = 3
+MAX_LENGTH = 9
+puts "Choose the length of your word between #{MIN_LENGTH} to #{MAX_LENGTH} letters, then press return."
 LENGTH = gets.chomp.to_i
+if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
+  raise "Pick a number between #{MIN_LENGTH} and #{MAX_LENGTH}."
+end
+
 puts "Great!"
 # LENGTH = 5
 
@@ -107,7 +112,7 @@ def correct?(word, guess)
   word == guess
 end
 
-puts "Make a guess"
+puts "Guess the word. Hint: it's #{LENGTH} letters long."
 num_guesses = 0
 
 while(num_guesses < MAX_GUESSES)
