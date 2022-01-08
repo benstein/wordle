@@ -20,18 +20,28 @@ def valid_word?(word)
   VALID_WORDS.include?(word)
 end
 
+
+
+
 MAX_GUESSES = 6
 MIN_LENGTH = 3
 MAX_LENGTH = 9
 SLEEP_FOR_BEFORE_STARTING = 0 #3
 
 #ENTER WORD HERE
-puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here, then press enter"
-WORD = gets.chomp
+puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here and press enter, or just press enter for automatic picking"
+user_input = gets.chomp
+
+WORD = if user_input.size == 0 #autopicking
+  # %w[ dog cat bear cars].shuffle.last
+  File.read("source_words.txt").split("\n").shuffle.last.chomp
+else
+  user_input
+end
+LENGTH = WORD.size
 
 #Check the word is valid and a legal size
 raise "You must guess a valid word in the dictionary. Try again." if !valid_word?(WORD)
-LENGTH = WORD.size
 if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
   raise "Pick a word between #{MIN_LENGTH} and #{MAX_LENGTH} letters."
 end
