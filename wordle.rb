@@ -103,7 +103,7 @@ def color_word(word, guess)
       # ALPHABET.gsub!(letter, letter.yellow)
       #ALPHABET.gsub!(letter, "_")
       # puts "ALPHABET: #{ALPHABET}"
-      letter.yellow
+      letter.light_yellow
     else
       GRAYS << letter
       # ALPHABET.gsub!(letter, letter.light_black)
@@ -119,11 +119,10 @@ def correct?(word, guess)
   word == guess
 end
 
-def color_alphabet#(alphabet, greens, yellows,  grays)
-  #remove yellows that are already green
+def color_alphabet
   str = ALPHABET.clone
   GRAYS.each{|l| str.gsub!(l, l.light_black) }
-  (YELLOWS - GREENS).each{|l| str.gsub!(l, l.yellow) }
+  (YELLOWS - GREENS).each{|l| str.gsub!(l, l.light_yellow) }
   GREENS.each{|l| str.gsub!(l, l.green) }
   str
 end
