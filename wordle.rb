@@ -31,6 +31,38 @@ def valid_word?(word)
   VALID_WORDS.include?(word)
 end
 
+class Score
+  SCORE_FILE = 'scores.txt'
+  # [0,0,3,2,2,0]
+  attr_accessor :name, :num_games, :scores
+  
+  def self.initialize(name)
+    
+  end
+  
+  def print
+    
+  end
+  
+  def add_result(score)
+    num_names +=1
+    scores[score-1] += 1 if score < MAX_GUESSES
+  end
+  
+  def save!
+    data[@name] = {
+      # :name => @name,
+      :num_games => @num_games,
+      :scores => @scores
+    }
+    File.write(SCORE_FILE)
+  end
+  
+  def self.open_scores
+    @results = JSON.read(SCORE_FILE)
+  end
+end
+
 #ENTER WORD HERE
 puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here and press enter, or just press enter for automatic picking"
 user_input = gets.chomp
