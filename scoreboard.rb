@@ -2,25 +2,38 @@
 #s = Score.open_scores[0]
 #s.add_result(1)
 require 'json'
+require 'colorize'
 class Scoreboard
   SCORE_FILE = 'scores.json'
 
   attr_accessor :scores
   
+  def pretty_print
+    puts ""
+    puts "========= SCOREBOARD =========".red
+    sorted_scores[0..10].each do |s|
+      puts "#{s.name.light_blue}: #{s.points.to_s.green} points in #{s.num_games.to_s.green} games. #{s.scores.inspect.light_yellow}"
+    end
+  end
+
+  def sorted_scores
+    @scores.sort{|a,b| a.points <=> b.points}
+  end
+  
   def update(name, num_guesses)
     my_score = @scores.detect{|s| s.name == name}
-    p "got score #{my_score.inspect}"
     if my_score.nil?
-      p "creating new and adding"
        s = Score.new(name)
        s.add_result(num_guesses)
-       p "creating new and adding #{s.inspect}"
        @scores << s
     else
-      p "updaating with #{num_guesses}"
       my_score.add_result(num_guesses)
     end
     my_score
+  end
+  
+  def lose(name)
+    update(name, Score::MAX_GUESSES+1)
   end
   
   def save!

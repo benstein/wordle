@@ -1,3 +1,4 @@
+require_relative 'scoreboard'
 require 'colorize'
 WORDLE_BANNER = 
 " .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
@@ -30,7 +31,6 @@ VALID_WORDS = File.read(DICTIONARY_FILE).split("\n")
 def valid_word?(word)
   VALID_WORDS.include?(word)
 end
-
 
 
 
@@ -132,7 +132,12 @@ def color_alphabet
 end
 
 puts WORDLE_BANNER.green
-puts "Guess the word. Hint: it's #{LENGTH} letters long."
+puts "Enter your name, or hit enter to just start guessing"
+player_input = gets.chomp
+PLAYER_NAME = (player_input.size==0) ? nil : player_input
+
+
+puts "Hi #{PLAYER_NAME || 'anonymous'}. Guess the word. Hint: it's #{LENGTH} letters long."
 num_guesses = 0
 
 while(num_guesses < MAX_GUESSES)
@@ -145,6 +150,12 @@ while(num_guesses < MAX_GUESSES)
     puts color_word(WORD, guess)
     if correct?(WORD, guess)
       puts "You win! 🐶 The word was #{WORD}".green
+      if PLAYER_NAME
+        scoreboard = Scoreboard.open
+        scoreboard.update(PLAYER_NAME, num_guesses+1)
+        scoreboard.save!
+      end
+      Scoreboard.open.pretty_print
       exit
     end
     num_guesses+=1
@@ -155,4 +166,9 @@ while(num_guesses < MAX_GUESSES)
   puts 
 end
 puts "YOU LOSE 💀. The word was #{WORD}.".red
-
+if PLAYER_NAME
+  scoreboard = Scoreboard.open
+  scoreboard.lose(PLAYER_NAME)
+  scoreboard.save!
+end
+Scoreboard.open.pretty_print
