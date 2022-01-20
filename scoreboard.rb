@@ -45,7 +45,7 @@ class Scoreboard
         :scores    => s.scores
       }
     end
-    puts data.inspect
+    # puts data.inspect
     File.write(SCORE_FILE, data.to_json)
   end
 
