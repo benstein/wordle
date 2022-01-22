@@ -33,24 +33,27 @@ def valid_word?(word)
 end
 
 
+loop do
+  #ENTER WORD HERE
+  puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here and press enter, or just press enter for automatic picking"
+  user_input = gets.chomp
 
-#ENTER WORD HERE
-puts "Enter your word between #{MIN_LENGTH} and #{MAX_LENGTH} letters here and press enter, or just press enter for automatic picking"
-user_input = gets.chomp
+  WORD = if user_input.size == 0 #autopicking
+    File.read(SOURCE_WORD_FILE).split("\n").shuffle.last.chomp
+  else
+    user_input
+  end
+  LENGTH = WORD.size
 
-WORD = if user_input.size == 0 #autopicking
-  File.read(SOURCE_WORD_FILE).split("\n").shuffle.last.chomp
-else
-  user_input
+  #Check the word is valid and a legal size
+  if valid_word?(WORD) && (MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
+    break
+  else
+    puts "You must guess a valid word in the dictionary between #{MIN_LENGTH} and #{MAX_LENGTH} letters. Try again."
+  end
+  false
+  #raise "Word length of #{WORD} must be #{LENGTH}" if WORD.size != LENGTH
 end
-LENGTH = WORD.size
-
-#Check the word is valid and a legal size
-raise "You must guess a valid word in the dictionary. Try again." if !valid_word?(WORD)
-if !(MIN_LENGTH..MAX_LENGTH).include?(LENGTH)
-  raise "Pick a word between #{MIN_LENGTH} and #{MAX_LENGTH} letters."
-end
-raise "Word length of #{WORD} must be #{LENGTH}" if WORD.size != LENGTH
 
 puts "Got it! #{WORD} is a great word. Hiding in 3... 2... 1..."
 sleep(SLEEP_FOR_BEFORE_STARTING)
